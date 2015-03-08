@@ -12,7 +12,7 @@ void main() {
 
 class TestScene extends Scene {
 	Vector camPos;
-	static const CAMSPEED = .5;
+	static const CAMSPEED = 500;
 	
 	List<int> tiles;
 	static const int MAP_WIDTH=30;

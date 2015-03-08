@@ -66,23 +66,19 @@ class Game {
 	}
 	
 	void _update(num frameTime) {
-		_stats.callMethod("begin");
-		
-		window.requestAnimationFrame(_update);
-		
-		num dt = frameTime-_lastFrameTime;
+		num dt = (frameTime-_lastFrameTime)/1000;
 		_lastFrameTime=frameTime;
-		if (dt<100) { //FIXME good idea or no?
-			
+		
+		if (dt<.1) { //FIXME good idea or no?
+			_stats.callMethod("begin");
+			if (_activeScene!=null) _activeScene._update(_graphics, dt);		
+            controls._endFrame();
+            _stats.callMethod("end");
 		} else {
 			print("DROPPED FRAME!");
 		}
-
-		if (_activeScene!=null) _activeScene._update(_graphics, dt);
 		
-		controls._endFrame();
-		
-		_stats.callMethod("end");
+		window.requestAnimationFrame(_update);
 	}
 }
 
