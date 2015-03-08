@@ -12,7 +12,7 @@ class Graphics {
 	}
 	
 	void setCamPos(Vector pos) {
-		ctx.setTransform(1, 0, 0, 1, pos.x, pos.y);
+		ctx.setTransform(1, 0, 0, 1, pos.x.toInt(), pos.y.toInt());
 	}
 	
 	void clear(String style) {
