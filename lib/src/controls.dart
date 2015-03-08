@@ -6,7 +6,7 @@ class Controls {
 	List<bool> keys = new List.filled(256,false);
 	List<bool> keys_down = new List.filled(256,false);
 	List<bool> keys_up = new List.filled(256,false);
-	
+
 	Controls._make(HtmlElement element) {
 		window.onKeyDown.listen((KeyboardEvent e) {
 			if (!keys[e.which]) {

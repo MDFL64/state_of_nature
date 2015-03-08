@@ -19,4 +19,8 @@ class Graphics {
 		ctx.fillStyle = style;
         ctx.fillRect(0,0,width,height);
 	}
+	
+	void drawImg(ImageElement img, Vector pos) {
+		ctx.drawImage(img, pos.x-img.width/2, pos.y-img.height/2);
+	}
 }
