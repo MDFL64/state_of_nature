@@ -6,9 +6,17 @@ import 'package:state_of_nature/dingus.dart';
 
 void main() {
 	Game game = new Game();
+	//game.addScene("menu", new MenuScene());
 	game.addScene("test", new TestScene());
 	game.startScene("test");
 }
+
+/*class MenuScene extends Scene
+{
+  var img_logo = content.getImage("logo.png");
+  
+  
+}*/
 
 class TestScene extends Scene {
 	Vector camPos;
