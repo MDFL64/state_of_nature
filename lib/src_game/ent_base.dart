@@ -61,7 +61,7 @@ class EntMob extends GameEntity {
             }
         }
 		
-		var img = content.getImage("dude.png");
+		var img = content.getImage("humanR.png");
 		
 		g.drawImg(img, pos);
 	}
