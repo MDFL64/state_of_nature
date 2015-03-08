@@ -10,8 +10,16 @@ class Vector {
 	static final Vector Y = new Vector(0,1,0);
 	static final Vector Z = new Vector(0,0,1);
 	
-	operator+(Vector other) {
+	Vector operator+(Vector other) {
 		return new Vector(x+other.x,y+other.y,z+other.z);
+	}
+	
+	Vector operator-(Vector other) {
+		return new Vector(x-other.x,y-other.y,z-other.z);
+	}
+	
+	num sqrLen() {
+		return x*x+y*y+z*z;
 	}
 	
 	@override
