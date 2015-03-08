@@ -1,6 +1,7 @@
 library dingus;
 
 import "dart:html";
+import "dart:js";
 
 part "src/graphics.dart";
 part "src/controls.dart";
@@ -16,6 +17,8 @@ class Game {
 	Controls controls;
 	Content content;
 	
+	JsObject _stats;
+	
 	num _lastFrameTime=0;
 	
 	Map<String,Scene> _scenes = new Map();
@@ -26,7 +29,7 @@ class Game {
 		_canvas.style.position = "fixed";
 		_canvas.style.top = "0";
 		_canvas.style.left = "0";
-		document.body.children.add(_canvas);
+		document.body.append(_canvas);
 		
 		_graphics = new Graphics._make(this);
 		controls = new Controls._make(_canvas);
@@ -35,6 +38,11 @@ class Game {
 		_resizeCanvas();
         window.onResize.listen((Event){_resizeCanvas();});
 		
+        _stats = new JsObject(context["Stats"]);
+        Element stats_element = _stats["domElement"];
+        stats_element.style..position = "absolute" ..right="0" ..top="0";
+        document.body.append(stats_element);
+        
         _update(0);
 	}
 	
@@ -58,6 +66,8 @@ class Game {
 	}
 	
 	void _update(num frameTime) {
+		_stats.callMethod("begin");
+		
 		window.requestAnimationFrame(_update);
 		
 		num dt = frameTime-_lastFrameTime;
@@ -71,6 +81,8 @@ class Game {
 		if (_activeScene!=null) _activeScene._update(_graphics, dt);
 		
 		controls._endFrame();
+		
+		_stats.callMethod("end");
 	}
 }
 
