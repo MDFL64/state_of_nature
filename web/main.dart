@@ -14,15 +14,30 @@ class TestScene extends Scene {
 	Vector camPos;
 	static const CAMSPEED = .5;
 	
-	int tile_width=13;
-	int tile_height=13;
 	List<int> tiles;
+	static const int MAP_WIDTH=30;
+	static const int MAP_HEIGHT=30;
+	static const int TILE_WIDTH=32;
+	static const int TILE_HEIGHT=16;
+	
+	static const TILE_GRASS = 0;
+	static const TILE_WALL = 1;
+	
+	int getTile(int x, int y) {
+		return tiles[x+MAP_WIDTH*y];
+	}
+	
+	void setTile(int x, int y, int t) {
+		tiles[x+MAP_WIDTH*y] = t;
+	}
 	
 	@override
 	void init() {
 		print("[Scene Init]");
 		camPos = new Vector();
-		tiles = new List.filled(tile_width*tile_height,0);
+		tiles = new List.filled(MAP_WIDTH*MAP_HEIGHT,0);
+		setTile(0,10,1);
+		setTile(0,29,1);
 	}
 	@override
     void preUpdate(Graphics g, num dt) {
@@ -37,27 +52,25 @@ class TestScene extends Scene {
         	camPos.x-=CAMSPEED*dt;
 		
 		g.setCamPos(Vector.ZERO);
-		g.clear("black");
+		g.clear("cyan");
 		
 		g.setCamPos(camPos);
+		
+		var img_grass = content.getImage("grass.png");
+		var img_wall = content.getImage("wall.png");
+		
+		for (int x=0;x<MAP_WIDTH;x++) {
+			for (int y=0;y<MAP_HEIGHT;y++) {
+				if (getTile(x, y)==TILE_WALL) {
+					g.ctx.drawImage(img_wall,x*TILE_WIDTH,y*TILE_HEIGHT-24);
+				} else {
+					g.ctx.drawImage(img_grass,x*TILE_WIDTH,y*TILE_HEIGHT);
+				}
+			}
+		}
     }
     @override
     void postUpdate(Graphics g, num dt) {
-    	g.ctx.fillStyle = "orange";
-    	g.ctx.font = "30px comic sans ms";
-    	g.ctx.fillText("The State of Nature", 10, 100);
     	
-    	g.ctx.fillStyle = "purple";
-    	g.ctx.font = "20px comic sans ms";
-    	g.ctx.fillText("a vidya game", 10, 120);
-    	
-    	Vector v = new Vector(3,4,5);
-    	Vector n = new Vector(7,7,7);
-    	
-    	g.ctx.drawImage(content.getImage("heyo.png"),300, 300);
-    	
-    	g.ctx.fillStyle = "lime";
-    	g.ctx.font = "10px arial";
-    	g.ctx.fillText("Vector sum is: ${v+n}!", 70, 150);
     }
 }
