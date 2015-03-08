@@ -15,8 +15,8 @@ class TestScene extends Scene {
 	static const CAMSPEED = 500;
 	
 	List<int> tiles;
-	static const int MAP_WIDTH=30;
-	static const int MAP_HEIGHT=30;
+	static const int MAP_WIDTH=60;
+	static const int MAP_HEIGHT=60;
 	static const int TILE_WIDTH=32;
 	static const int TILE_HEIGHT=16;
 	
@@ -36,7 +36,15 @@ class TestScene extends Scene {
 		print("[Scene Init]");
 		camPos = new Vector();
 		tiles = new List.filled(MAP_WIDTH*MAP_HEIGHT,0);
-		setTile(0,10,1);
+		for (int x=0;x<MAP_WIDTH;x++) {
+			setTile(x,0,1);
+			setTile(x,MAP_HEIGHT-1,1);
+		}
+		for (int y=0;y<MAP_HEIGHT;y++) {
+			setTile(0,y,1);
+            setTile(MAP_WIDTH-1,y,1);
+        }
+		
 		setTile(0,29,1);
 	}
 	@override
