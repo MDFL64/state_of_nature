@@ -3,6 +3,10 @@ part of game;
 abstract class GameEntity extends Entity {
 	GameEntity(this.pos);
 	Vector pos=new Vector();
+	
+	void signalCollide(GameEntity other) {
+		//stub
+	}
 }
 
 
@@ -12,6 +16,8 @@ abstract class EntMob extends GameEntity {
 	
 	num speed= 75;
 	num health= 5;
+	
+	num waitTime=0;
 	
 	String task = "wander";
 	int moveDir;
@@ -29,6 +35,23 @@ abstract class EntMob extends GameEntity {
 	@override
 	void update(Graphics g, num dt) {
 		Vector goal = GameScene.getTilePos(goalX, goalY);
+		
+		drawMob(g);
+                
+        GameScene s = scene;
+        s.signalEnt(goalX,goalY, this);
+		
+        if (task=="fight")
+        	return;
+        else if (task == "wait" || task=="dead") {
+			waitTime-=dt;
+			if (waitTime>0) {
+				return;
+			} else if (task=="dead") {
+				delete();
+			}
+			task = "wander";
+		}
 		
 		//Movement
 		if (speed*dt>(goal.x-pos.x).abs())
@@ -61,8 +84,6 @@ abstract class EntMob extends GameEntity {
         		}
             }
         }
-		
-        drawMob(g);
 	}
 	
 	bool canMove(int dir) {
@@ -94,6 +115,23 @@ abstract class EntMob extends GameEntity {
 			moveDir = 0;
 		else
 			moveDir = canidates[rand.nextInt(canidates.length)];
+	}
+	
+	void setWait(num t) {
+		task="wait";
+		waitTime = t;
+		moveDir = 0;
+	}
+	
+	void setFight() {
+		task="fight";
+		moveDir = 0;
+	}
+	
+	void die() {
+		task="dead";
+		waitTime = 5;
+        moveDir = 0;
 	}
 	
 	void drawMob(Graphics g);

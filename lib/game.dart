@@ -14,6 +14,7 @@ class GameScene extends Scene {
 	static const CAMSPEED = 500;
 	
 	List<int> tiles;
+	List<GameEntity> entMap;
 	static const int MAP_WIDTH=40;
 	static const int MAP_HEIGHT=20;
 	static const int TILE_WIDTH=32;
@@ -32,6 +33,16 @@ class GameScene extends Scene {
 	
 	static Vector getTilePos(int x, int y) {
 		return new Vector(x*TILE_WIDTH+TILE_WIDTH/2,y*TILE_HEIGHT+TILE_HEIGHT/2);
+	}
+	
+	void signalEnt(int x, int y, GameEntity e) {
+		var current = entMap[x+MAP_WIDTH*y];
+		if (current!=null) {
+			e.signalCollide(current);
+			current.signalCollide(e);
+		} else {
+			entMap[x+MAP_WIDTH*y] = e;
+		}
 	}
 	
 	//gets random x,y coords for entity
@@ -64,13 +75,25 @@ class GameScene extends Scene {
         }
 		
 		//Ents
-		for (int i=0;i<50;i++)
+		entMap = new List.filled(MAP_WIDTH*MAP_HEIGHT,null); 
+		
+		var rand = new Random();
+		for (int x=1;x<MAP_WIDTH-1;x++) {
+			for (int y=1;y<MAP_HEIGHT-1;y++) {
+				int n = rand.nextInt(100);
+				
+				if (n<30) {
+					addEnt(new EntTree(rx(),ry()));
+				}
+			}
+		}
+		//for (int i=0;i<60;i++)
+        //    addEnt(new EntTree(rx(),ry()));
+		
+		for (int i=0;i<20;i++)
 			addEnt(new EntMan(rx(),ry()));
 		
-		for (int i=0;i<10;i++)
-        	addEnt(new EntTree(getTilePos(rx(),ry())));
-		
-		for (int i=0;i<10;i++)
+		for (int i=0;i<20;i++)
             addEnt(new EntCritter(rx(),ry()));
 		
 	}
@@ -103,6 +126,8 @@ class GameScene extends Scene {
 				}
 			}
 		}
+		
+		entMap.fillRange(0, MAP_WIDTH*MAP_HEIGHT, null);
     }
     @override
     void postUpdate(Graphics g, num dt) {

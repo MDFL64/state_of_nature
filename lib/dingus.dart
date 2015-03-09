@@ -84,6 +84,7 @@ class Game {
 
 abstract class Scene {
 	List<Entity> _ents = [];
+	List<Entity> _ents_to_add = [];
 	
 	Game game;
 	
@@ -93,7 +94,7 @@ abstract class Scene {
 	Scene() {}
 	
 	void addEnt(Entity ent) {
-		_ents.add(ent);
+		_ents_to_add.add(ent);
 		
 		ent.game = game;
 		ent.scene = this;
@@ -103,6 +104,7 @@ abstract class Scene {
 	
 	void reset() {
 		_ents.clear();
+		_ents_to_add.clear();
 		init();
 	}
 	
@@ -119,6 +121,8 @@ abstract class Scene {
 		
 		postUpdate(g, dt);
 		
+		_ents.addAll(_ents_to_add);
+		_ents_to_add=[];
 		_ents.removeWhere((Entity e)=>e._delete);
 	}
 }
