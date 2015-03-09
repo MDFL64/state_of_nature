@@ -70,6 +70,9 @@ class GameScene extends Scene {
 		for (int i=0;i<10;i++)
         	addEnt(new EntTree(getTilePos(rx(),ry())));
 		
+		for (int i=0;i<10;i++)
+            addEnt(new EntCritter(rx(),ry()));
+		
 	}
 	@override
     void preUpdate(Graphics g, num dt) {

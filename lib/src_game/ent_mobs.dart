@@ -13,3 +13,12 @@ class EntMan extends EntMob {
         g.drawImg(img, pos, .5);
 	}
 }
+
+class EntCritter extends EntMob {
+	EntCritter(int x, int y) : super(x,y);
+	
+	void drawMob(Graphics g) {
+		var img = content.getImage("rabbit.png");
+        g.drawImg(img, pos, .5);
+	}
+}
