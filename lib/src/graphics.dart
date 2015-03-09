@@ -23,6 +23,6 @@ class Graphics {
 	void drawImg(ImageElement img, Vector pos, [num scale=1]) {
 		num w = img.width*scale;
 		num h = img.height*scale;
-		ctx.drawImageScaled(img, pos.x-w/2, pos.y-h/2, w, h);
+		ctx.drawImageScaled(img, (pos.x-w/2).toInt(), (pos.y-h/2).toInt(), w, h);
 	}
 }
