@@ -84,7 +84,7 @@ class GameScene extends Scene {
         	camPos.x-=CAMSPEED*dt;
 		
 		g.setCamPos(Vector.ZERO);
-		g.clear("cyan");
+		g.clear("CornflowerBlue");
 		
 		g.setCamPos(camPos);
 		
