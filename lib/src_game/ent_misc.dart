@@ -6,6 +6,6 @@ class EntTree extends GameEntity {
 	@override
 	void update(Graphics g, num dt) {
 		var img = content.getImage("tree.png");
-		g.drawImg(img, pos);
+		g.drawImg(img, pos, .7);
 	}
 }

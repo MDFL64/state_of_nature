@@ -20,7 +20,9 @@ class Graphics {
         ctx.fillRect(0,0,width,height);
 	}
 	
-	void drawImg(ImageElement img, Vector pos) {
-		ctx.drawImage(img, pos.x-img.width/2, pos.y-img.height/2);
+	void drawImg(ImageElement img, Vector pos, [num scale=1]) {
+		num w = img.width*scale;
+		num h = img.height*scale;
+		ctx.drawImageScaled(img, pos.x-w/2, pos.y-h/2, w, h);
 	}
 }

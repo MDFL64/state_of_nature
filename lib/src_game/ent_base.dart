@@ -6,11 +6,11 @@ abstract class GameEntity extends Entity {
 }
 
 
-class EntMob extends GameEntity {
+abstract class EntMob extends GameEntity {
 	int goalX;
 	int goalY;
 	
-	num speed= 100;
+	num speed= 75;
 	num health= 5;
 	
 	String task = "wander";
@@ -20,9 +20,10 @@ class EntMob extends GameEntity {
 	Random rand = new Random();
 	
 	EntMob(x,y) : super(GameScene.getTilePos(x, y)) {
-		moveDir = rand.nextInt(4);
 		goalX = x;
 		goalY = y;
+		//pickDir()
+		moveDir=0;
 	}
 	
 	@override
@@ -42,27 +43,58 @@ class EntMob extends GameEntity {
         //Decision making
         if ((goal-pos).sqrLen()<1) {
         	if (task=="wander") {
-        		if (rand.nextInt(5)==0)
-                	moveDir = rand.nextInt(4);
+        		if (rand.nextInt(5)==0 || !canMove(moveDir))
+                	pickDir();
         		switch (moveDir) {
-        			case 0:
+        			case 1:
         				goalX+=1;
         				break;
-        			case 1:
+        			case 2:
         				goalX-=1;
         				break;
-        			case 2:
+        			case 3:
         				goalY+=1;
         				break;
-        			case 3:
+        			case 4:
         				goalY-=1;
         				break;
         		}
             }
         }
 		
-		var img = content.getImage("humanR.png");
-		
-		g.drawImg(img, pos);
+        drawMob(g);
 	}
+	
+	bool canMove(int dir) {
+		var tile;
+		GameScene gs = scene;
+		switch (dir) {
+			case 1:
+				tile = gs.getTile(goalX+1,goalY);
+				break;
+			case 2:
+				tile = gs.getTile(goalX-1,goalY);
+				break;
+			case 3:
+				tile = gs.getTile(goalX,goalY+1);
+				break;
+			case 4:
+				tile = gs.getTile(goalX,goalY-1);
+				break;
+		}
+		return tile==0;
+	}
+	
+	void pickDir() {
+		List<int> canidates = [];
+		for (int d=1;d<=4;d++)
+			if (canMove(d))
+				canidates.add(d);
+		if (canidates.length==0)
+			moveDir = 0;
+		else
+			moveDir = canidates[rand.nextInt(canidates.length)];
+	}
+	
+	void drawMob(Graphics g);
 }

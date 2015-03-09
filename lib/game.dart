@@ -7,14 +7,15 @@ import "package:state_of_nature/dingus.dart";
 
 part "src_game/ent_base.dart";
 part "src_game/ent_misc.dart";
+part "src_game/ent_mobs.dart";
 
 class GameScene extends Scene {
 	Vector camPos;
 	static const CAMSPEED = 500;
 	
 	List<int> tiles;
-	static const int MAP_WIDTH=60;
-	static const int MAP_HEIGHT=60;
+	static const int MAP_WIDTH=40;
+	static const int MAP_HEIGHT=20;
 	static const int TILE_WIDTH=32;
 	static const int TILE_HEIGHT=32;
 	
@@ -31,6 +32,17 @@ class GameScene extends Scene {
 	
 	static Vector getTilePos(int x, int y) {
 		return new Vector(x*TILE_WIDTH+TILE_WIDTH/2,y*TILE_HEIGHT+TILE_HEIGHT/2);
+	}
+	
+	//gets random x,y coords for entity
+	int rx() {
+		var r = new Random();
+		return r.nextInt(MAP_WIDTH-2)+1;
+	}
+	
+	int ry() {
+		var r = new Random();
+		return r.nextInt(MAP_HEIGHT-2)+1;
 	}
 	
 	@override
@@ -52,14 +64,12 @@ class GameScene extends Scene {
         }
 		
 		//Ents
-		addEnt(new EntTree(getTilePos(3, 3)));
+		for (int i=0;i<50;i++)
+			addEnt(new EntMan(rx(),ry()));
 		
-		var r = new Random();
+		for (int i=0;i<10;i++)
+        	addEnt(new EntTree(getTilePos(rx(),ry())));
 		
-		for (int i=0;i<10;i++) {
-			var mob = new EntMob(r.nextInt(10)+1,r.nextInt(10)+1);
-			addEnt(mob);
-		}
 	}
 	@override
     void preUpdate(Graphics g, num dt) {
