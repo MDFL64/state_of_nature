@@ -13,6 +13,8 @@ class GameScene extends Scene {
 	Vector camPos;
 	static const CAMSPEED = 500;
 	
+	bool commonwealth = true;
+	
 	List<int> tiles;
 	List<GameEntity> entMap;
 	static const int MAP_WIDTH=40;
@@ -83,7 +85,11 @@ class GameScene extends Scene {
 				int n = rand.nextInt(100);
 				
 				if (n<30) {
-					addEnt(new EntTree(rx(),ry()));
+					addEnt(new EntTree(x,y));
+				} else if (n<35) {
+					addEnt(new EntMan(x,y));
+				} else if (n<40) {
+					addEnt(new EntCritter(x,y));
 				}
 			}
 		}

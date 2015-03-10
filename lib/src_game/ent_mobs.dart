@@ -29,9 +29,15 @@ class EntMan extends EntMob {
 	@override
 	void signalCollide(GameEntity other) {
 		if (other is EntTree) {
-			if (rand.nextInt(1000)==0) {
+			GameScene s = scene;
+			bool cw = s.commonwealth;
+			if (rand.nextInt(cw?100:1000)==0) {
 				other.delete();
-				doFire();
+				if (cw) {
+					//todo make house
+				} else {
+					doFire();
+				}
 			}
 		} else if (other is EntCritter) {
 			if (rand.nextInt(100)==0) {
@@ -39,8 +45,12 @@ class EntMan extends EntMob {
 				doFire();
 			}
 		} else if (other is EntMan) {
-			if (other.task=="dead" || (task!="fight" && other.task=="fight"))
+			GameScene s = scene;
+			if (other.task=="dead" || (task!="fight" && other.task=="fight") || s.commonwealth) {
+				if (task=="fight")
+					task="wander";
 				return;
+			}
 			if (rand.nextInt(100)==0) {
 				if (task=="fight") {
 					if (rand.nextInt(3)==0) {
@@ -65,13 +75,32 @@ class EntMan extends EntMob {
 		scene.addEnt(new EntCampfire(pos+new Vector(40,0)));
 		setWait(2);
 	}
+	
+	bool getLeisure() {
+		GameScene s = scene;
+		if (s.commonwealth)
+			return rand.nextInt(5)==0;
+		return false;
+	}
+	
+	int getWanderLen() {
+		GameScene s = scene;
+		if (s.commonwealth)
+			return 30;
+		return 10;
+	}
 }
 
 class EntCritter extends EntMob {
 	EntCritter(int x, int y) : super(x,y);
 	
 	void drawMob(Graphics g) {
-		var img = content.getImage("rabbit.png");
+		var img;
+		
+		if (moveDir==3)
+        	img = content.getImage("rabbit2.png");
+        else
+			img = content.getImage("rabbit.png");
         g.drawImg(img, pos, .5);
 	}
 }

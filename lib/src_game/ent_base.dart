@@ -65,8 +65,10 @@ abstract class EntMob extends GameEntity {
 		
         //Decision making
         if ((goal-pos).sqrLen()<1) {
+        	if (getLeisure())
+        		setWait(1);
         	if (task=="wander") {
-        		if (rand.nextInt(5)==0 || !canMove(moveDir))
+        		if (rand.nextInt(getWanderLen())==0 || !canMove(moveDir))
                 	pickDir();
         		switch (moveDir) {
         			case 1:
@@ -132,6 +134,14 @@ abstract class EntMob extends GameEntity {
 		task="dead";
 		waitTime = 5;
         moveDir = 0;
+	}
+	
+	bool getLeisure() {
+		return false;
+	}
+	
+	int getWanderLen() {
+		return 5;
 	}
 	
 	void drawMob(Graphics g);
