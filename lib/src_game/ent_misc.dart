@@ -34,3 +34,15 @@ class EntCampfire extends GameEntity {
 		g.drawImg(img, pos, .6);
 	}
 }
+
+class EntHouse extends GameEntity {
+	bool castle;
+	
+	EntHouse(Vector p,this.castle) : super(p);
+	
+	@override
+	void update(Graphics g, num dt) {
+		var img = content.getImage(castle?"castle.png":"house.png");
+		g.drawImg(img, pos, .4);
+	}
+}

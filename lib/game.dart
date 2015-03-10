@@ -13,7 +13,8 @@ class GameScene extends Scene {
 	Vector camPos;
 	static const CAMSPEED = 500;
 	
-	bool commonwealth = true;
+	bool commonwealth;
+	EntMan king;
 	
 	List<int> tiles;
 	List<GameEntity> entMap;
@@ -76,6 +77,9 @@ class GameScene extends Scene {
             setTile(MAP_WIDTH-1,y,1);
         }
 		
+		commonwealth = false;
+        king = null;
+		
 		//Ents
 		entMap = new List.filled(MAP_WIDTH*MAP_HEIGHT,null); 
 		
@@ -93,15 +97,6 @@ class GameScene extends Scene {
 				}
 			}
 		}
-		//for (int i=0;i<60;i++)
-        //    addEnt(new EntTree(rx(),ry()));
-		
-		for (int i=0;i<20;i++)
-			addEnt(new EntMan(rx(),ry()));
-		
-		for (int i=0;i<20;i++)
-            addEnt(new EntCritter(rx(),ry()));
-		
 	}
 	@override
     void preUpdate(Graphics g, num dt) {
@@ -137,6 +132,19 @@ class GameScene extends Scene {
     }
     @override
     void postUpdate(Graphics g, num dt) {
+    	if (controls.keys_down[67]) {
+    		if (king==null || !king.isValid()){
+    			king= findEnt((var e) => e is EntMan);
+    			king.king=true;
+    		}
+    		commonwealth=true;
+    	}
     	
+    	if (controls.keys_down[65])
+           	commonwealth=false;
+
+
+    		
+    	//"a" "c"
     }
 }

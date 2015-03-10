@@ -108,6 +108,10 @@ abstract class Scene {
 		init();
 	}
 	
+	Entity findEnt(var f) {
+		return _ents.firstWhere(f);
+	}
+	
 	void init();
 	void preUpdate(Graphics g, num dt);
 	void postUpdate(Graphics g, num dt);
@@ -137,6 +141,10 @@ abstract class Entity {
 	
 	void delete() {
 		_delete=true;
+	}
+	
+	bool isValid() {
+		return !_delete;
 	}
 	
 	void update(Graphics g, num dt);

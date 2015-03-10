@@ -3,6 +3,8 @@ part of game;
 class EntMan extends EntMob {
 	EntMan(int x, int y) : super(x,y);
 	
+	bool king=false;
+	
 	void drawMob(Graphics g) {
 		var img;
 		if (task=="dead")
@@ -24,17 +26,34 @@ class EntMan extends EntMob {
         	g.drawImg(img, pos+new Vector(rand.nextDouble()*20-10,rand.nextDouble()*20-10), .5);
 		else
 			g.drawImg(img, pos, .5);
+		
+		if (king) {
+			Vector offset;
+			if (moveDir==1)
+				offset= new Vector(-8,-12);
+			else if (moveDir==2)
+				offset= new Vector(10,-8);
+			else
+				offset = new Vector(0,-14);
+			
+			g.drawImg(content.getImage("crown.png"), pos+offset, .3);
+		}
 	}
 	
 	@override
 	void signalCollide(GameEntity other) {
+		GameScene s = scene;
+        bool cw = s.commonwealth;
 		if (other is EntTree) {
-			GameScene s = scene;
-			bool cw = s.commonwealth;
 			if (rand.nextInt(cw?100:1000)==0) {
 				other.delete();
 				if (cw) {
-					//todo make house
+					if (king) {
+						s.addEnt(new EntHouse(pos*1,true));
+					} else {
+						if (rand.nextInt(4)==0)
+							s.addEnt(new EntHouse(pos*1,false));
+					}
 				} else {
 					doFire();
 				}
@@ -42,7 +61,8 @@ class EntMan extends EntMob {
 		} else if (other is EntCritter) {
 			if (rand.nextInt(100)==0) {
 				other.delete();
-				doFire();
+				if (!cw)
+					doFire();
 			}
 		} else if (other is EntMan) {
 			GameScene s = scene;

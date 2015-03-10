@@ -18,6 +18,10 @@ class Vector {
 		return new Vector(x-other.x,y-other.y,z-other.z);
 	}
 	
+	Vector operator*(num n) {
+		return new Vector(x*n,y*n,z*n);
+	}
+	
 	num sqrLen() {
 		return x*x+y*y+z*z;
 	}
