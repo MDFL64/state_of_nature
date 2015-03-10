@@ -7,86 +7,56 @@ import "package:state_of_nature/game.dart";
 
 void main() {
 	Game game = new Game();
-
-	game.addScene("test", new GameScene());
+	game.addScene("test", new TestScene());
 	game.startScene("test");
-	//game.addScene("menu", new MenuScene());
 }
 
-/*class MenuScene extends Scene
-{
-  var img_logo = content.getImage("logo.png");
-  
-  
-}*/
 
 class TestScene extends Scene {
-	Vector camPos;
-	static const CAMSPEED = 500;
-	
-	List<int> tiles;
-	static const int MAP_WIDTH=60;
-	static const int MAP_HEIGHT=60;
-	static const int TILE_WIDTH=32;
-	static const int TILE_HEIGHT=16;
-	
-	static const TILE_GRASS = 0;
-	static const TILE_WALL = 1;
-	
-	int getTile(int x, int y) {
-		return tiles[x+MAP_WIDTH*y];
-	}
-	
-	void setTile(int x, int y, int t) {
-		tiles[x+MAP_WIDTH*y] = t;
-	}
-	
+  double counter = 0.0;
+  bool s1 = false;//These keep track of the keys pressed to bring up About and the Controls
+  bool s2 = false; 
 	@override
 	void init() {
-		print("[Scene Init]");
-		camPos = new Vector();
-		tiles = new List.filled(MAP_WIDTH*MAP_HEIGHT,0);
-		for (int x=0;x<MAP_WIDTH;x++) {
-			setTile(x,0,1);
-			setTile(x,MAP_HEIGHT-1,1);
-		}
-		for (int y=0;y<MAP_HEIGHT;y++) {
-			setTile(0,y,1);
-            setTile(MAP_WIDTH-1,y,1);
-        }
 		
-		setTile(0,29,1);
 	}
 	@override
     void preUpdate(Graphics g, num dt) {
-		if (controls.keys[38])
-			camPos.y+=CAMSPEED*dt;
-		else if (controls.keys[40])
-        	camPos.y-=CAMSPEED*dt;
-		
-		if (controls.keys[37])
-			camPos.x+=CAMSPEED*dt;
-		else if (controls.keys[39])
-        	camPos.x-=CAMSPEED*dt;
-		
-		g.setCamPos(Vector.ZERO);
-		g.clear("cyan");
-		
-		g.setCamPos(camPos);
-		
-		var img_grass = content.getImage("grass.png");
-		var img_wall = content.getImage("wall.png");
-		
-		for (int x=0;x<MAP_WIDTH;x++) {
-			for (int y=0;y<MAP_HEIGHT;y++) {
-				if (getTile(x, y)==TILE_WALL) {
-					g.ctx.drawImage(img_wall,x*TILE_WIDTH,y*TILE_HEIGHT-24);
-				} else {
-					g.ctx.drawImage(img_grass,x*TILE_WIDTH,y*TILE_HEIGHT);
-				}
-			}
-		}
-    }
+	  
+	  if(counter < 4.0)
+	  {
+	     g.clear("black");
+	     var img_logo = content.getImage("logo.png");
+	    g.ctx.drawImage(img_logo,0,0);
+	     counter = counter + dt;
+	     return;
+	  }
+	  var img_about = content.getImage("about.png");
+	  var img_menu = content.getImage("menu.png");
+	  var img_controls = content.getImage("controls.png");
+	  g.ctx.drawImage(img_menu,0,0);
+	  if(controls.keys[65]) //If statement to bring up the About the Game
+	  {
+	    s1 = true;
+	  }
+	  if(s1 == true)
+	  {
+	    g.ctx.drawImage(img_about,0,0);
+	    if(controls.keys[13])
+	       s1 = false;
+	  }
+	  if(controls.keys[67]) //If statement to bring up the controls.
+        {
+          s2 = true;
+        }
+     if(s2 == true)
+        {
+          g.ctx.drawImage(img_controls,0,0);
+          if(controls.keys[13])
+             s2 = false;
+        }
+}
+	
     @override
     void postUpdate(Graphics g, num dt) {
     	

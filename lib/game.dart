@@ -100,7 +100,8 @@ class GameScene extends Scene {
 	}
 	@override
     void preUpdate(Graphics g, num dt) {
-		if (controls.keys[38])
+		
+	  if (controls.keys[38])
 			camPos.y+=CAMSPEED*dt;
 		else if (controls.keys[40])
         	camPos.y-=CAMSPEED*dt;
