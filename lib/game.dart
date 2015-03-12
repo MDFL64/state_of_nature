@@ -8,6 +8,7 @@ import "package:state_of_nature/dingus.dart";
 part "src_game/ent_base.dart";
 part "src_game/ent_misc.dart";
 part "src_game/ent_mobs.dart";
+part "src_game/ent_monster.dart";
 
 class GameScene extends Scene {
 	Vector camPos;
@@ -144,6 +145,14 @@ class GameScene extends Scene {
     	if (controls.keys_down[65])
            	commonwealth=false;
 
+    	if (controls.keys_down[76]) {
+    		if (king!=null && king.isValid()) {
+    			addEnt(new EntMonster(king.pos,true));
+    			king.delete();
+    			king=null;
+    		} else
+    			addEnt(new EntMonster(new Vector(600,300),false));
+    	}
 
     		
     	//"a" "c"

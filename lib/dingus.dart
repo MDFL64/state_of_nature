@@ -109,7 +109,7 @@ abstract class Scene {
 	}
 	
 	Entity findEnt(var f) {
-		return _ents.firstWhere(f);
+		return _ents.firstWhere(f, orElse: () => null);
 	}
 	
 	void init();
