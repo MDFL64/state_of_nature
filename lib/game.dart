@@ -161,6 +161,10 @@ class GameScene extends Scene {
     	if (controls.keys_down[82]) {
     		game.startScene("game");
     	}
+    	
+    	if (controls.keys[72]) {
+    		addEnt(new EntMan(rx(),ry()));
+    	}
 
     		
     	//"a" "c"
