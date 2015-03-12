@@ -7,8 +7,9 @@ import "package:state_of_nature/game.dart";
 
 void main() {
 	Game game = new Game();
-	game.addScene("test", new TestScene());
-	game.startScene("test");
+	game.addScene("menu", new TestScene());
+	game.addScene("game", new GameScene());
+	game.startScene("menu");
 }
 
 
@@ -22,40 +23,45 @@ class TestScene extends Scene {
 	}
 	@override
     void preUpdate(Graphics g, num dt) {
-	  
+	  g.clear("black");
+		
 	  if(counter < 4.0)
 	  {
-	     g.clear("black");
 	     var img_logo = content.getImage("logo.png");
-	    g.ctx.drawImage(img_logo,0,0);
+	    g.drawImg(img_logo, new Vector(g.width/2,g.height/2));
 	     counter = counter + dt;
 	     return;
 	  }
 	  var img_about = content.getImage("about.png");
 	  var img_menu = content.getImage("menu.png");
 	  var img_controls = content.getImage("controls.png");
-	  g.ctx.drawImage(img_menu,0,0);
-	  if(controls.keys[65]) //If statement to bring up the About the Game
-	  {
-	    s1 = true;
-	  }
+	  
 	  if(s1 == true)
 	  {
-	    g.ctx.drawImage(img_about,0,0);
-	    if(controls.keys[13])
+		  g.drawImg(img_about, new Vector(g.width/2,g.height/2));
+	    if(controls.keys_down[13])
 	       s1 = false;
 	  }
-	  if(controls.keys[67]) //If statement to bring up the controls.
-        {
-          s2 = true;
-        }
-     if(s2 == true)
-        {
-          g.ctx.drawImage(img_controls,0,0);
-          if(controls.keys[13])
-             s2 = false;
-        }
-}
+	  else if(s2 == true)
+      {
+		  g.drawImg(img_controls, new Vector(g.width/2,g.height/2));
+        if(controls.keys_down[13])
+           s2 = false;
+      } else {
+    	  g.drawImg(img_menu, new Vector(g.width/2,g.height/2));
+    	  if(controls.keys_down[65]) //If statement to bring up the About the Game
+      	  {
+      	    s1 = true;
+      	  }
+    	  else if(controls.keys_down[67]) //If statement to bring up the controls.
+          {
+            s2 = true;
+          }
+    	  else if(controls.keys_down[13]) {
+    		  game.startScene("game");
+    	  }
+      }
+	}
 	
     @override
     void postUpdate(Graphics g, num dt) {
