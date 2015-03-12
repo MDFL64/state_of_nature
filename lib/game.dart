@@ -153,6 +153,14 @@ class GameScene extends Scene {
     		} else
     			addEnt(new EntMonster(new Vector(600,300),false));
     	}
+    	
+    	if (controls.keys_down[77]) {
+    		game.startScene("menu");
+    	}
+    	
+    	if (controls.keys_down[82]) {
+    		game.startScene("game");
+    	}
 
     		
     	//"a" "c"

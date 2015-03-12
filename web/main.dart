@@ -23,6 +23,7 @@ class TestScene extends Scene {
 	}
 	@override
     void preUpdate(Graphics g, num dt) {
+		g.setCamPos(Vector.ZERO);
 	  g.clear("black");
 		
 	  if(counter < 4.0)
